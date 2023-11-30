@@ -7,7 +7,7 @@ Simple test extension for VS Code.
 Run a python function in a simplest way without any extra coding.
 
 - **Example**
-
+![example](https://github.com/Lingfei-He/simple-test/blob/main/example.gif)
 
 ## Requirements
 
