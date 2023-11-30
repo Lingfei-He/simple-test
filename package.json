@@ -1,6 +1,10 @@
 {
   "name": "simple-test",
   "displayName": "simple test",
+  "publisher": "lingfei",
+  "repository": {
+    "url": "https://github.com/Lingfei-He/simple-test"
+  },
   "description": "Provide simple test functions (only for python currently).",
   "version": "0.0.1",
   "engines": {
