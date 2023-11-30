@@ -1,0 +1,153 @@
+{
+  "name": "simple-test",
+  "displayName": "simple test",
+  "description": "Provide simple test functions (only for python currently).",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsWelcome": [
+      {
+        "view": "simpleTest",
+        "contents": "No Units"
+      }
+    ],
+    "commands": [
+      {
+        "command": "simpleTest.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "simpleTest.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "simpleTest.add",
+        "title": "add",
+        "icon": "$(add)"
+      },
+      {
+        "command": "simpleTest.recreate",
+        "title": "recreate"
+      },
+      {
+        "command": "simpleTest.addParamGroup",
+        "title": "addParamGroup",
+        "icon": "$(add)"
+      },
+      {
+        "command": "simpleTest.run",
+        "title": "run",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "simpleTest.edit",
+        "title": "edit",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "simpleTest.delete",
+        "title": "delete",
+        "icon": "$(notebook-delete-cell)"
+      },
+      {
+        "title": "Enable Unit Buttons from Current Line",
+        "command": "simpleTest.enableCodeLens",
+        "category": "CodeLens"
+      },
+      {
+        "title": "Disable Unit Buttons from Current Line",
+        "command": "simpleTest.disableCodeLens",
+        "category": "CodeLens"
+      },
+      {
+        "command": "simpleTest.delete",
+        "title": "Delete"
+      },
+      {
+        "command": "simpleTest.navigateSource",
+        "title": "Navigate to Unit Source"
+      }
+    ],
+    "configuration": {
+      "properties": {
+        "codelens.enableCodeLens": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "simpleTest",
+          "name": "Simple Test"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "simpleTest.refresh",
+          "when": "view == simpleTest",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "simpleTest.addParamGroup",
+          "when": "view == simpleTest && viewItem =~ /unit/ && !(viewItem =~ /runItem/)",
+          "group": "inline"
+        },
+        {
+          "command": "simpleTest.run",
+          "when": "view == simpleTest && viewItem =~ /runItem/",
+          "group": "inline"
+        },
+        {
+          "command": "simpleTest.delete",
+          "when": "view == simpleTest"
+        },
+        {
+          "command": "simpleTest.navigateSource",
+          "when": "view == simpleTest && viewItem =~ /unit/"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/mocha": "^10.0.2",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.83.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "python-shell": "^5.0.0",
+    "vscode-wizard": "^0.2.20"
+  }
+}
