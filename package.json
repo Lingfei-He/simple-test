@@ -6,7 +6,7 @@
     "url": "https://github.com/Lingfei-He/simple-test"
   },
   "description": "Provide simple test functions (only for python currently).",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.83.0"
   },
@@ -80,6 +80,10 @@
       {
         "command": "simpleTest.navigateSource",
         "title": "Navigate to Unit Source"
+      },
+      {
+        "command": "simpleTest.showErrorMessage",
+        "title": "Display Error Message"
       }
     ],
     "configuration": {
@@ -118,12 +122,19 @@
           "group": "inline"
         },
         {
-          "command": "simpleTest.delete",
-          "when": "view == simpleTest"
+          "command": "simpleTest.navigateSource",
+          "when": "view == simpleTest && viewItem =~ /unit/",
+          "group": "@1"
         },
         {
-          "command": "simpleTest.navigateSource",
-          "when": "view == simpleTest && viewItem =~ /unit/"
+          "command": "simpleTest.showErrorMessage",
+          "when": "view == simpleTest && !(viewItem =~ /unit/) && !(viewItem =~ /parameterGroup/)",
+          "group": "@1"
+        },
+        {
+          "command": "simpleTest.delete",
+          "when": "view == simpleTest",
+          "group": "@2"
         }
       ]
     }

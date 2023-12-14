@@ -5,7 +5,8 @@ import * as path from 'path';
 const { exec } = require("child_process");
 import * as utils from './utils';
 import { match } from 'assert';
-import {treeView, rootPath, provider} from './extension';
+import {treeView, rootPath, provider, outputChannel} from './extension';
+import {getPythonDir} from './py';
 
 // treeView?.onDidChangeSelection((e)=>{
 //   console.log(e)
@@ -57,7 +58,7 @@ class SimpleTestProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
             Object.keys(result.param_group_map).length === 0 ? vscode.TreeItemCollapsibleState.None : vscode.TreeItemCollapsibleState.Collapsed, result, 
             result.dir_name, result.src_obj_info?.line));
           this.units = unitElements;
-          if(this.refreshHandler !== null){
+          if(this.refreshHandler && typeof this.refreshHandler === 'function'){
             this.refreshHandler(unitElements);
           }
           resolve(unitElements);
@@ -239,6 +240,20 @@ class SimpleTestProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     vscode.window.showTextDocument(vscode.Uri.file(unitElement.unitPath), {
       selection: new vscode.Range(line, 0, line, 0)
     });
+  }
+
+  showErrorMessage(unitElement: Unit){
+    let errMsg = unitElement.info.src_obj_info;
+    // outputChannel.replace(errMsg);
+    // outputChannel.show();
+    if(rootPath){
+      let tmpPath = path.join(rootPath, unitElement.dirName, 'error_trace.obj');
+      // fs.writeFileSync(tmpPath, errMsg);
+      let runTerminal = this.getTerminal();
+      this.focusTerminal();
+      runTerminal.sendText(`python ${path.join(getPythonDir(), 'raise_err.py')} "${tmpPath}"`);
+    }
+   
   }
 
   getTerminal(){

@@ -17,9 +17,14 @@ Run a python function in a simplest way without any extra coding.
 
 
 
-### 1.0.0
+### 0.0.1
 
 Initial release
+
+### 0.0.2
+- Fix the bug when there are other printed strings during running source function.
+- Change the order of treeView options to make 'Delete' option be the last.
+- Add Error Trace for unit source detection.
 
 ## For more information
 

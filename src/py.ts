@@ -26,7 +26,6 @@ function runBuiltInPython(localPath: string, query: string, paramMap:any = undef
 function query(queryStr: string, paramMap: any = undefined){
     return new Promise((resolve, reject)=>{
         runBuiltInPython('query.py', queryStr, paramMap).then(r=>{
-            console.log(queryStr, r);
             for(let i in r){
                 try {
                     r[i] = JSON.parse(r[i]);
@@ -34,7 +33,11 @@ function query(queryStr: string, paramMap: any = undefined){
                     continue;
                 }
             }
-            resolve(r);
+            let simpleTestResult = r.find(result=>{
+                return result['type'] && result.type === 'simple-test';
+            });
+            console.log(queryStr, simpleTestResult?.data);
+            resolve(simpleTestResult ? simpleTestResult.data : null);
         }).catch(err=>{
             reject(err);
         });
@@ -43,5 +46,6 @@ function query(queryStr: string, paramMap: any = undefined){
 
 
 export {
-    query
+    query,
+    getPythonDir
 };

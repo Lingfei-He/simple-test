@@ -14,11 +14,24 @@ def find_unit_dirs(root):
 
 @query_handler
 def get_unit_info(unit_dir):
+    import os
     unit = unit_run.Unit.load_from_disk(unit_dir)
-    result = unit.to_info_dict()
+    result = unit.to_info_dict(return_trace=True)
     result['dir_name'] = Path(unit_dir).stem
+
+    msg_path = os.path.join(unit_dir, 'error_trace.obj')
     if result['src_valid']:
         result['src_obj_info']['line'] = inspect.getsourcelines(unit.src_obj)[-1]
+        if os.path.exists(msg_path):
+            os.remove(msg_path)
+    else:
+        import pickle, os, traceback
+        with open(msg_path, 'wb') as f:
+            pickle.dump(result['src_obj_info'], f)
+        try:
+            raise result['src_obj_info']
+        except:
+            result['src_obj_info'] = traceback.format_exc()
     return result
 
 @query_handler
@@ -66,6 +79,10 @@ if __name__ == '__main__':
         result = handler(**data)
     else:
         result = handler(*data)
+    result = {
+        'type': 'simple-test',
+        'data': result
+    }
     utils.return_result(result)
     
     

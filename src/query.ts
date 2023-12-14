@@ -16,7 +16,7 @@ function createHandler(q: Query){
                 q.success(resolve, r);
             }
             else{
-                resolve(r[0]);
+                resolve(r);
             }
         }).catch(err=>{
             if(q.error){

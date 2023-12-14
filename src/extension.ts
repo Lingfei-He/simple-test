@@ -13,6 +13,7 @@ import { CodelensProvider, CodelensProvider2 } from './codelen';
 let rootPath: string|null = null;
 let provider: SimpleTestProvider|null = null;
 let treeView: vscode.TreeView<vscode.TreeItem>|null = null;
+let outputChannel = vscode.window.createOutputChannel('simple-test-msg')
 
 function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
@@ -38,8 +39,9 @@ function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('simpleTest.refresh', provider.refresh, provider);
 	vscode.commands.registerCommand('simpleTest.add', provider.addUnit, provider);
 	vscode.commands.registerCommand('simpleTest.addParamGroup', provider.addParamGroup, provider);
-	vscode.commands.registerCommand('simpleTest.delete', provider.delete);
 	vscode.commands.registerCommand('simpleTest.navigateSource', provider.navigateSource);
+	vscode.commands.registerCommand('simpleTest.showErrorMessage', provider.showErrorMessage, provider);
+	vscode.commands.registerCommand('simpleTest.delete', provider.delete);
 	vscode.commands.registerCommand('simpleTest.run', provider.run, provider);
 
 	// const codelensProvider2 = new CodelensProvider2();
@@ -82,5 +84,6 @@ export {
 	deactivate,
 	rootPath,
 	treeView,
-	provider
+	provider,
+	outputChannel
 };
